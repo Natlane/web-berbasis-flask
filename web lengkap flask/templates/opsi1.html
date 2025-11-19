@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+
+{% block title %}Profil Saya{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Profil Pengguna</h1>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            Info Akun
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Halo, {{ user.username }}!</h5>
+            <p class="card-text">Berikut adalah detail informasi akun Anda saat ini.</p>
+            
+            <hr>
+
+            <div class="row mb-3">
+                <div class="col-sm-3 fw-bold">ID User:</div>
+                <div class="col-sm-9">{{ user.id }}</div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-sm-3 fw-bold">Username:</div>
+                <div class="col-sm-9">{{ user.username }}</div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-sm-3 fw-bold">Status:</div>
+                <div class="col-sm-9">
+                    {% if user.is_admin %}
+                        <span class="badge bg-success">Administrator</span>
+                    {% else %}
+                        <span class="badge bg-secondary">User Biasa</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <a href="{{ url_for('index') }}" class="btn btn-outline-light mt-3">Kembali ke Dashboard</a>
+        </div>
+    </div>
+{% endblock %}

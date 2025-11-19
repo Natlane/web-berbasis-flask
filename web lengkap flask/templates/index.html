@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+
+{% block title %}Halaman Utama - Postingan{% endblock %}
+
+{% block content %}
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h2 class="h4">Buat Postingan Baru</h2>
+            <form method="post" action="{{ url_for('add_post') }}">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Judul Postingan</label>
+                    <input type="text" name="title" id="title" class="form-control" placeholder="Judul Postingan" required>
+                </div>
+                <div class="mb-3">
+                    <label for="content" class="form-label">Isi Postingan</label>
+                    <textarea name="content" id="content" class="form-control" placeholder="Isi Postingan" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Tambah Postingan</button>
+            </form>
+       </div>
+    </div>
+
+    <h2>Daftar Postingan</h2>
+
+    {% if posts %}
+        {% for post in posts %}
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+                <h3 class="card-title h5 text-primary">{{ post.title }}</h3>
+                <p class="card-text">{{ post.content }}</p>
+                <hr>
+                <small class="text-muted">{{ post.created_at }}</small>
+
+                {% if current_user.is_admin %}
+                <div class="mt-3">
+                    <a href="{{ url_for('edit_post', post_id=post.id) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin?');">
+                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info">Belum ada postingan. Ayo buat satu!</div>
+    {% endif %}
+
+{% endblock %}

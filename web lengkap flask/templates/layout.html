@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Proyek Flask Anda{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/darkly/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body { overflow-x: hidden; }
+        #wrapper { display: flex; }
+        #sidebar-wrapper {
+            min-height: calc(100vh - 56px);
+            width: 250px;
+            transition: margin .25s ease-out;
+            background-color: #2c3e50; /* Warna Biru Gelap Custom */
+        }
+        #sidebar-wrapper .sidebar-heading {
+            padding: 0.875rem 1.25rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+        }
+        #sidebar-wrapper .nav a {
+            color: #adb5bd;
+            padding: 10px 20px;
+            text-decoration: none;
+        }
+        #sidebar-wrapper .nav a:hover, 
+        #sidebar-wrapper .nav a.active {
+            color: white;
+            background-color: #1a252f; /* Warna hover */
+        }
+        #page-content-wrapper {
+            flex-grow: 1;
+            padding: 30px;
+            width: calc(100% - 250px);
+            transition: width .25s ease-out;
+        }
+        #wrapper.toggled #sidebar-wrapper { margin-left: -250px; }
+        #wrapper.toggled #page-content-wrapper { width: 100%; }
+    </style>
+</head>
+<body>
+
+    <header class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container-fluid">
+            <button class="btn btn-dark" id="menu-toggle">☰ Menu</button>
+            <a href="{{ url_for('index') }}" class="navbar-brand mx-auto"><strong>Dashboard Proyek</strong></a>
+            <div class="text-end text-white">
+                Halo, <strong>{{ current_user.username }}</strong>!
+                <a href="{{ url_for('logout') }}" class="btn btn-danger btn-sm ms-2">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <div id="wrapper">
+        <aside id="sidebar-wrapper">
+            <div class="sidebar-heading">Menu Navigasi</div>
+            <nav class="nav flex-column">
+                <a class="nav-link {% if request.endpoint == 'index' %}active{% endif %}" href="{{ url_for('index') }}">Buat Postingan</a>
+                <a class="nav-link {% if request.endpoint == 'opsi1' %}active{% endif %}" href="{{ url_for('opsi1') }}">Profil Saya</a>
+                <a class="nav-link {% if request.endpoint == 'opsi2' %}active{% endif %}" href="{{ url_for('opsi2') }}">Statistik Web</a>
+            </nav>
+        </aside>
+
+        <main id="page-content-wrapper">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            {% block content %}
+            {% endblock %}
+        </main>
+    </div>
+
+    <footer class="mt-auto p-3 text-center bg-dark text-white-50">
+        <p>&copy; 2025 Proyek Infrastruktur Jaringan Anda.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById("menu-toggle").addEventListener("click", function(e) {
+            e.preventDefault();
+            document.getElementById("wrapper").classList.toggle("toggled");
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+
+{% block title %}Statistik Web{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Statistik Website</h1>
+    <p class="lead text-muted">Ringkasan data database (Khusus Admin).</p>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card text-white bg-info mb-3 shadow-sm" style="max-width: 100%;">
+                <div class="card-header">Konten</div>
+                <div class="card-body text-center">
+                    <h5 class="card-title">Total Postingan</h5>
+                    <h1 class="display-2 fw-bold">{{ total_posts }}</h1>
+                    <p class="card-text">Jumlah artikel yang telah dipublish.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card text-white bg-success mb-3 shadow-sm" style="max-width: 100%;">
+                <div class="card-header">Pengguna</div>
+                <div class="card-body text-center">
+                    <h5 class="card-title">Total User Terdaftar</h5>
+                    <h1 class="display-2 fw-bold">{{ total_users }}</h1>
+                    <p class="card-text">Jumlah akun yang aktif di sistem.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="alert alert-warning mt-3">
+        <strong>Info:</strong> Data ini diambil secara <em>real-time</em> dari database.
+    </div>
+{% endblock %}
